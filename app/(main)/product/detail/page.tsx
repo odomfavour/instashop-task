@@ -53,6 +53,16 @@ const Page: React.FC = () => {
     }
   };
 
+  const handleAddCollectionClick = () => {
+    if (collectionInput.trim()) {
+      setProductData((prev) => ({
+        ...prev,
+        collection: [...prev.collection, collectionInput.trim()],
+      }));
+      setCollectionInput('');
+    }
+  };
+
   const handleRemoveCollection = (item: string) => {
     setProductData((prev) => ({
       ...prev,
@@ -86,6 +96,26 @@ const Page: React.FC = () => {
       ...prev,
       [optionType]: [...prev[optionType], value.trim()],
     }));
+  };
+
+  const handleAddValueClick = (optionType: 'colors' | 'sizes') => {
+    // Select the input element and cast it to HTMLInputElement
+    const inputElement =
+      optionType === 'colors'
+        ? document.querySelector<HTMLInputElement>('input[name="color"]')
+        : document.querySelector<HTMLInputElement>('input[name="size"]');
+
+    if (inputElement) {
+      const value = inputElement.value.trim();
+
+      if (value) {
+        setProductData((prev) => ({
+          ...prev,
+          [optionType]: [...prev[optionType], value], // Add the value to the respective array (colors or sizes)
+        }));
+        inputElement.value = ''; // Clear the input after adding the value
+      }
+    }
   };
 
   const handleRemoveValue = (optionType: 'colors' | 'sizes', value: string) => {
@@ -250,6 +280,14 @@ const Page: React.FC = () => {
                   placeholder="Search or create collection"
                   className="w-full p-2 text-sm outline-none"
                 />
+                <div className="flex justify-end">
+                  <button
+                    onClick={handleAddCollectionClick}
+                    className="pri-btn text-sm inline-block"
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
             </div>
             <div className="mb-6">
@@ -388,6 +426,7 @@ const Page: React.FC = () => {
                 </div>
                 <div className="px-[8px]">
                   <input
+                    name="color"
                     type="text"
                     placeholder="Add color"
                     className="w-full p-2 text-sm outline-none"
@@ -398,6 +437,14 @@ const Page: React.FC = () => {
                       }
                     }}
                   />
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() => handleAddValueClick('colors')}
+                      className="pri-btn text-sm inline-block"
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -427,6 +474,7 @@ const Page: React.FC = () => {
                 <div className="px-[8px]">
                   <input
                     type="text"
+                    name="size"
                     placeholder="Add size"
                     className="w-full p-2 text-sm outline-none"
                     onKeyDown={(e) => {
@@ -436,6 +484,14 @@ const Page: React.FC = () => {
                       }
                     }}
                   />
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() => handleAddValueClick('sizes')}
+                      className="pri-btn text-sm inline-block"
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
               </div>
               {/* <div className="border py-[8px] rounded-md mb-3">

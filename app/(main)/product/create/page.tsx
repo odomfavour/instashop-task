@@ -104,18 +104,22 @@ const Page: React.FC = () => {
   };
 
   const handleAddCollection = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (
-      (e.key === 'Enter' || e.key === ',' || e.key === ' ') &&
-      collectionInput.trim()
-    ) {
+    if (e.key === 'Enter' && collectionInput.trim()) {
       e.preventDefault();
-      const items = collectionInput
-        .split(',')
-        .map((item) => item.trim())
-        .filter(Boolean);
+
       setProductData((prev) => ({
         ...prev,
-        collection: [...prev.collection, ...items],
+        collection: [...prev.collection, collectionInput.trim()],
+      }));
+      setCollectionInput('');
+    }
+  };
+
+  const handleAddCollectionClick = () => {
+    if (collectionInput.trim()) {
+      setProductData((prev) => ({
+        ...prev,
+        collection: [...prev.collection, collectionInput.trim()],
       }));
       setCollectionInput('');
     }
@@ -154,6 +158,26 @@ const Page: React.FC = () => {
       ...prev,
       [optionType]: [...prev[optionType], value.trim()],
     }));
+  };
+
+  const handleAddValueClick = (optionType: 'colors' | 'sizes') => {
+    // Select the input element and cast it to HTMLInputElement
+    const inputElement =
+      optionType === 'colors'
+        ? document.querySelector<HTMLInputElement>('input[name="color"]')
+        : document.querySelector<HTMLInputElement>('input[name="size"]');
+
+    if (inputElement) {
+      const value = inputElement.value.trim();
+
+      if (value) {
+        setProductData((prev) => ({
+          ...prev,
+          [optionType]: [...prev[optionType], value], // Add the value to the respective array (colors or sizes)
+        }));
+        inputElement.value = ''; // Clear the input after adding the value
+      }
+    }
   };
 
   const handleRemoveValue = (optionType: 'colors' | 'sizes', value: string) => {
@@ -338,6 +362,14 @@ const Page: React.FC = () => {
                     placeholder="Search or create collection"
                     className="w-full p-2 text-sm outline-none"
                   />
+                  <div className="flex justify-end">
+                    <button
+                      onClick={handleAddCollectionClick}
+                      className="pri-btn text-sm inline-block"
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
               </div>
               {errors.collection && (
@@ -479,18 +511,24 @@ const Page: React.FC = () => {
                 <div className="px-[8px]">
                   <input
                     type="text"
+                    name="color"
                     placeholder="Add color"
                     className="w-full p-2 text-sm outline-none"
                     onKeyDown={(e) => {
-                      if (
-                        (e.key === 'Enter' || e.key === '') &&
-                        e.currentTarget.value.trim()
-                      ) {
+                      if (e.key === 'Enter' && e.currentTarget.value.trim()) {
                         handleAddValue('colors', e.currentTarget.value);
                         e.currentTarget.value = '';
                       }
                     }}
                   />
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() => handleAddValueClick('colors')}
+                      className="pri-btn text-sm inline-block"
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -520,6 +558,7 @@ const Page: React.FC = () => {
                 <div className="px-[8px]">
                   <input
                     type="text"
+                    name="size"
                     placeholder="Add size"
                     className="w-full p-2 text-sm outline-none"
                     onKeyDown={(e) => {
@@ -529,6 +568,14 @@ const Page: React.FC = () => {
                       }
                     }}
                   />
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() => handleAddValueClick('sizes')}
+                      className="pri-btn text-sm inline-block"
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
               </div>
               {/* <div className="border py-[8px] rounded-md mb-3">
