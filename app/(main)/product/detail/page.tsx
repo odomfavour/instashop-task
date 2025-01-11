@@ -74,20 +74,20 @@ const Page: React.FC = () => {
     if (!e.target.files) return;
     const files = Array.from(e.target.files);
     const newImages = files.map((file, index) => ({
-      id: Date.now() + index, // Unique id
+      id: Date.now() + index,
       name: file.name,
-      src: URL.createObjectURL(file), // Preview URL
+      src: URL.createObjectURL(file),
     }));
     setProductData((prev) => ({
       ...prev,
-      prodImgs: [...prev.prodImgs, ...newImages], // Append new images
+      prodImgs: [...prev.prodImgs, ...newImages],
     }));
   };
 
   const handleRemoveImage = (id: number) => {
     setProductData((prev) => ({
       ...prev,
-      prodImgs: prev.prodImgs.filter((img) => img.id !== id), // Remove image
+      prodImgs: prev.prodImgs.filter((img) => img.id !== id),
     }));
   };
 
@@ -99,7 +99,6 @@ const Page: React.FC = () => {
   };
 
   const handleAddValueClick = (optionType: 'colors' | 'sizes') => {
-    // Select the input element and cast it to HTMLInputElement
     const inputElement =
       optionType === 'colors'
         ? document.querySelector<HTMLInputElement>('input[name="color"]')
@@ -111,9 +110,9 @@ const Page: React.FC = () => {
       if (value) {
         setProductData((prev) => ({
           ...prev,
-          [optionType]: [...prev[optionType], value], // Add the value to the respective array (colors or sizes)
+          [optionType]: [...prev[optionType], value],
         }));
-        inputElement.value = ''; // Clear the input after adding the value
+        inputElement.value = '';
       }
     }
   };
@@ -260,15 +259,6 @@ const Page: React.FC = () => {
                       {item} <BsX className="text-lg" />
                     </button>
                   ))}
-                  {/* <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs flex gap-2 items-center">
-                  Collection <BsX className="text-lg" />
-                </button>
-                <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs flex gap-2 items-center">
-                  Interests <BsX className="text-lg" />
-                </button>
-                <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs flex gap-2 items-center">
-                  Black <BsX className="text-lg" />
-                </button> */}
                 </div>
               </div>
               <div className="px-[8px]">
@@ -494,37 +484,6 @@ const Page: React.FC = () => {
                   </div>
                 </div>
               </div>
-              {/* <div className="border py-[8px] rounded-md mb-3">
-              <div className="border-b">
-                <div className="flex items-center justify-between p-[8px]">
-                  <div>
-                    <p className="text-[10px]">Option 1</p>
-                    <p className="text-sm">Color</p>
-                  </div>
-                  <BsThreeDots />
-                </div>
-              </div>
-              <div className="p-[8px]">
-                <div className="flex mt-2 gap-2">
-                  <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs flex gap-2 items-center">
-                    Red <BsX className="text-lg" />
-                  </button>
-                  <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs flex gap-2 items-center">
-                    White <BsX className="text-lg" />
-                  </button>
-                  <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs flex gap-2 items-center">
-                    Black <BsX className="text-lg" />
-                  </button>
-                </div>
-              </div>
-              <div className="px-[8px]">
-                <input
-                  type="text"
-                  placeholder="Enter values"
-                  className="w-full p-2 text-sm outline-none"
-                />
-              </div>
-            </div> */}
               <div className="py-[8px]">
                 <button className="flex gap-2 items-center justify-center w-full plain-btn rounded-[90px] text-sm text-pri bg-[#00000005] border-[#00000005]">
                   <BsPlus className="text-lg" /> Add new option

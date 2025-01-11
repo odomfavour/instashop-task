@@ -1,5 +1,6 @@
 'use client';
 import { addProduct, updateProduct } from '@/provider/redux/productSlice';
+import AuthData from '@/types/AuthData';
 import ProductData from '@/types/ProductData';
 import RootState from '@/types/RootState';
 import Image from 'next/image';
@@ -16,32 +17,18 @@ const Page = () => {
   const productData = useSelector(
     (state: RootState) => state.product.productData
   );
+  const user = useSelector(
+    (state: { user: { user: AuthData } }) => state.user.user
+  );
   const dispatch = useDispatch();
   const router = useRouter();
-  console.log(productData);
-  // const {
-  //   title,
-  //   description,
-  //   price,
-  //   oldPrice,
-  //   collection,
-  //   prodImgs,
-  //   colors,
-  //   sizes,
-  // } = productData;
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  // Function to go to the next image
-  //   const handleNext = () => {
-  //     setCurrentIndex((prevIndex) => (prevIndex + 1) % prodImgs.length);
-  //   };
+  const toggleDescription = () => {
+    setIsExpanded((prev) => !prev);
+  };
 
-  // Function to go to the previous image
-  //   const handlePrev = () => {
-  //     setCurrentIndex(
-  //       (prevIndex) => (prevIndex - 1 + prodImgs.length) % prodImgs.length
-  //     );
-  //   };
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
@@ -57,14 +44,11 @@ const Page = () => {
     const distance = touchStart - touchEnd;
 
     if (Math.abs(distance) > 50) {
-      // Only detect swipe if the swipe distance is greater than 50px
       if (distance > 0) {
-        // Swipe left (next image)
         setCurrentIndex(
           (prevIndex) => (prevIndex + 1) % productData?.prodImgs.length
         );
       } else {
-        // Swipe right (previous image)
         setCurrentIndex(
           (prevIndex) =>
             (prevIndex - 1 + productData?.prodImgs.length) %
@@ -87,26 +71,22 @@ const Page = () => {
     let updatedProducts;
 
     if (productExists) {
-      // Update the existing product
       updatedProducts = existingProducts.map((product: ProductData) =>
         product.id === productData?.id
           ? { ...product, ...productData }
           : product
       );
-      dispatch(updateProduct(productData)); // Make sure you have the correct Redux action
+      dispatch(updateProduct(productData));
     } else {
-      // Add the new product
       updatedProducts = [...existingProducts, productData];
-      dispatch(addProduct(productData)); // Make sure you have the correct Redux action
+      dispatch(addProduct(productData));
     }
 
-    // Save the updated products list to localStorage
     localStorage.setItem('instaProducts', JSON.stringify(updatedProducts));
 
-    // Also save the current product data (for `instaProductData`)
     localStorage.setItem('instaProductData', JSON.stringify(productData));
     toast.success('Product published successfully');
-    // Redirect to the product listing page
+
     router.push('/product');
   };
 
@@ -204,7 +184,7 @@ const Page = () => {
               {productData?.sizes?.map((size: string, index: number) => (
                 <button
                   key={index}
-                  className="plain-btn bg-black text-white rounded-[90px] text-xs"
+                  className="plain-btn hover:bg-black hover:text-white bg-[#00000005] border-[#00000005] rounded-[90px] text-xs"
                 >
                   {size}
                 </button>
@@ -219,27 +199,11 @@ const Page = () => {
               {productData?.colors?.map((color: string, index: number) => (
                 <button
                   key={index}
-                  className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs"
+                  className="plain-btn hover:bg-black hover:text-white bg-[#00000005] border-[#00000005] rounded-[90px] text-xs"
                 >
                   {color}
                 </button>
               ))}
-
-              {/* <button className="plain-btn bg-black text-white rounded-[90px] text-xs">
-                Filter
-              </button>
-              <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs">
-                Filter
-              </button>
-              <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs">
-                Filter
-              </button>
-              <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs">
-                Filter
-              </button>
-              <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs">
-                Filter
-              </button> */}
             </div>
           </div>
         </div>
@@ -250,9 +214,16 @@ const Page = () => {
             <h3 className="text-sm font-medium">Product description</h3>
             <GoChevronDown />
           </div>
-          <p className="text-xs">{productData?.description}</p>
-          <button className="text-pri inline-block mb-3 text-xs">
-            Read more
+          <p className="text-xs">
+            {isExpanded
+              ? productData?.description
+              : `${productData?.description?.slice(0, 100)}...`}
+          </p>
+          <button
+            onClick={toggleDescription}
+            className="text-pri inline-block mb-3 text-xs"
+          >
+            {isExpanded ? 'Read less' : 'Read more'}
           </button>
         </div>
       </div>
@@ -266,16 +237,26 @@ const Page = () => {
             <div className="flex items-center gap-2">
               <div className="relative h-[52px] w-[52px] rounded-full border">
                 <Image
-                  src="/images/avatar.svg"
-                  alt="shopping image"
+                  src={user?.image || '/images/avatar.svg'}
+                  onError={(
+                    e: React.SyntheticEvent<HTMLImageElement, Event>
+                  ) => {
+                    e.currentTarget.src = '/images/avatar.svg'; // Replace with fallback image
+                  }}
+                  className="h-[52px] w-[52px] rounded-full"
+                  alt="store image"
                   layout="fill"
                   objectFit="cover"
                 />
               </div>
               <div>
-                <h3 className="font-medium text-xs">Gucci Store</h3>
+                <h3 className="font-medium text-xs">
+                  {user?.fullname} - {user?.storename}
+                </h3>
                 <div className="flex items-center gap-2 text-xs">
-                  <p className="text-[#00000066] font-normal">Fashion</p>
+                  <p className="text-[#00000066] font-normal">
+                    {user?.category || 'Not Set'}
+                  </p>
                   <div className="h-1 w-1 rounded-full bg-[#00000099]" />
                   <div className="flex gap-1 items-center">
                     <FaStar className="text-[#000000E6]" />
@@ -300,31 +281,11 @@ const Page = () => {
             {productData?.collection?.map((item: string, index: number) => (
               <button
                 key={index}
-                className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-[10px]"
+                className="plain-btn hover:bg-black hover:text-white bg-[#00000005] border-[#00000005] hover:bg- rounded-[90px] text-[10px]"
               >
                 {item}
               </button>
             ))}
-            {/* <button className="plain-btn  bg-[#00000005] border-[#00000005] rounded-[90px] text-[10px]">
-              Quality goods
-            </button>
-            <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-[10px]">
-              Nice designs
-            </button>
-
-            <button className="plain-btn  bg-[#00000005] border-[#00000005] rounded-[90px] text-[10px]">
-              Quality goods
-            </button>
-            <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-[10px]">
-              Nice designs
-            </button>
-
-            <button className="plain-btn  bg-[#00000005] border-[#00000005] rounded-[90px] text-[10px]">
-              Quality goods
-            </button>
-            <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-[10px]">
-              Nice designs
-            </button> */}
           </div>
         </div>
       </div>

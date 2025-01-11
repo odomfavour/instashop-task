@@ -2,14 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const storedUser =
   typeof localStorage !== 'undefined'
-    ? localStorage.getItem('agtradeAdminUser')
+    ? localStorage.getItem('instaUser')
     : null;
 
 const initialState = {
   user: storedUser ? JSON.parse(storedUser) : null,
-  // user: {
-  //   role: 'customer',
-  // },
 };
 
 export const userSlice = createSlice({
@@ -26,7 +23,6 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setVendor, logOut, setActiveVendor } =
-  userSlice.actions;
+export const { setUser, logOut } = userSlice.actions;
 
 export default userSlice.reducer;

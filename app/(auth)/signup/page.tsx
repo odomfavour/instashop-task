@@ -2,14 +2,18 @@
 import AuthStepOne from '@/components/auth/AuthStepOne';
 import AuthStepThree from '@/components/auth/AuthStepThree';
 import AuthStepTwo from '@/components/auth/AuthStepTwo';
+import { setUser } from '@/provider/redux/userSlice';
 import AuthData from '@/types/AuthData';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 const Page = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState<AuthData>({
     phone: '',
     email: '',
@@ -23,16 +27,15 @@ const Page = () => {
     category: '',
   });
 
-  // Function to handle the "Continue" button click
   const handleContinue = () => {
     if (currentStep < 3) {
-      setCurrentStep(currentStep + 1); // Move to the next step
+      setCurrentStep(currentStep + 1);
     } else {
       formData.token = process.env.NEXT_PUBLIC_INSTA_TOKEN;
       document.cookie = `instaToken=${formData.token}; path=/; max-age=86400;`;
 
-      console.log(formData);
       localStorage.setItem('instaUser', JSON.stringify(formData));
+      dispatch(setUser(formData));
       toast.success('Account created successfully');
       setFormData({
         phone: '',
@@ -50,10 +53,9 @@ const Page = () => {
     }
   };
 
-  // Function to handle the "Back" button click (move to previous step)
   const handleBack = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1); // Go to the previous step
+      setCurrentStep(currentStep - 1);
     }
   };
   return (

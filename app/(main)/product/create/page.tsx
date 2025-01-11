@@ -49,7 +49,6 @@ const Page: React.FC = () => {
   const validateForm = () => {
     const newErrors = { ...errors };
 
-    // Check each field for required values
     if (!productData.title) {
       newErrors.title = 'Name is required';
     } else {
@@ -78,25 +77,6 @@ const Page: React.FC = () => {
       newErrors.prodImgs = 'At least one image is required';
     }
 
-    // else {
-    //     // Validate that all images are of correct file type (optional)
-    //     const validImageTypes = [
-    //       'image/jpeg',
-    //       'image/png',
-    //       'image/gif',
-    //       'image/svg',
-    //     ];
-    //     for (let i = 0; i < productData.prodImgs.length; i++) {
-    //       const image = productData.prodImgs[i];
-    //       if (!validImageTypes.includes(image?.type)) {
-    //         newErrors.prodImgs =
-    //           'Invalid image type. Only JPEG, PNG, and GIF are allowed.';
-    //         break; // Exit the loop if an invalid image type is found
-    //       }
-    //     }
-    //   }
-
-    // Update the errors state
     setErrors(newErrors);
 
     // Return true if no errors exist, false if errors exist
@@ -136,13 +116,13 @@ const Page: React.FC = () => {
     if (!e.target.files) return;
     const files = Array.from(e.target.files);
     const newImages = files.map((file, index) => ({
-      id: Date.now() + index, // Unique id
+      id: Date.now() + index,
       name: file.name,
-      src: URL.createObjectURL(file), // Preview URL
+      src: URL.createObjectURL(file),
     }));
     setProductData((prev) => ({
       ...prev,
-      prodImgs: [...prev.prodImgs, ...newImages], // Append new images
+      prodImgs: [...prev.prodImgs, ...newImages],
     }));
   };
 
@@ -189,16 +169,14 @@ const Page: React.FC = () => {
 
   const handleSave = () => {
     if (!productData.id) {
-      productData.id = Date.now().toString(); // Generate a unique id based on the current timestamp
+      productData.id = Date.now().toString();
     }
     if (validateForm()) {
-      console.log('productData', productData);
       localStorage.setItem('instaProductData', JSON.stringify(productData));
       dispatch(saveProductData(productData));
       toast.success('Product created successfully');
       router.push('/product/preview');
     } else {
-      console.log('Form has errors');
       toast.error('Form has errors');
     }
   };
@@ -342,15 +320,6 @@ const Page: React.FC = () => {
                         {item} <BsX className="text-lg" />
                       </button>
                     ))}
-                    {/* <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs flex gap-2 items-center">
-                  Collection <BsX className="text-lg" />
-                </button>
-                <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs flex gap-2 items-center">
-                  Interests <BsX className="text-lg" />
-                </button>
-                <button className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs flex gap-2 items-center">
-                  Black <BsX className="text-lg" />
-                </button> */}
                   </div>
                 </div>
                 <div className="px-[8px]">
