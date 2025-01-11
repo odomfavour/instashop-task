@@ -61,14 +61,14 @@ const Page = () => {
       if (distance > 0) {
         // Swipe left (next image)
         setCurrentIndex(
-          (prevIndex) => (prevIndex + 1) % productData.prodImgs.length
+          (prevIndex) => (prevIndex + 1) % productData?.prodImgs.length
         );
       } else {
         // Swipe right (previous image)
         setCurrentIndex(
           (prevIndex) =>
-            (prevIndex - 1 + productData.prodImgs.length) %
-            productData.prodImgs.length
+            (prevIndex - 1 + productData?.prodImgs.length) %
+            productData?.prodImgs.length
         );
       }
     }
@@ -128,13 +128,15 @@ const Page = () => {
         className="relative w-full h-[360px]"
       >
         <div className="absolute bottom-2 right-2 text-white font-bold bg-[#0000000D] h-[21px] w-[21px] z-30 text-[10px] rounded-full flex justify-center items-center">
-          {currentIndex + 1}/{productData.prodImgs.length}
+          {currentIndex + 1}/{productData?.prodImgs.length}
         </div>
 
         {/* Image display */}
         <div className="relative w-full h-full">
           <Image
-            src={productData.prodImgs[currentIndex].src || `/images/avatar.png`}
+            src={
+              productData?.prodImgs[currentIndex].src || `/images/avatar.png`
+            }
             alt={`Product image ${currentIndex + 1}`}
             onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
               e.currentTarget.src = '/images/prod.svg'; // Replace with fallback image
