@@ -104,10 +104,18 @@ const Page: React.FC = () => {
   };
 
   const handleAddCollection = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if ((e.key === 'Enter' || e.key === ' ') && collectionInput.trim()) {
+    if (
+      (e.key === 'Enter' || e.key === ',' || e.key === ' ') &&
+      collectionInput.trim()
+    ) {
+      e.preventDefault();
+      const items = collectionInput
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean);
       setProductData((prev) => ({
         ...prev,
-        collection: [...prev.collection, collectionInput.trim()],
+        collection: [...prev.collection, ...items],
       }));
       setCollectionInput('');
     }
