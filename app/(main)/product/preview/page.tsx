@@ -89,7 +89,9 @@ const Page = () => {
     if (productExists) {
       // Update the existing product
       updatedProducts = existingProducts.map((product: ProductData) =>
-        product.id === productData.id ? { ...product, ...productData } : product
+        product.id === productData?.id
+          ? { ...product, ...productData }
+          : product
       );
       dispatch(updateProduct(productData)); // Make sure you have the correct Redux action
     } else {
@@ -196,7 +198,7 @@ const Page = () => {
           <h3 className="text-sm font-medium mt-4 mb-2">Select variants</h3>
           <div className="pt-2 mb-4">
             <p className="text-[10px] font-medium">
-              Size: {productData.sizes?.join(', ')}
+              Size: {productData?.sizes?.join(', ')}
             </p>
             <div className="flex mt-2 gap-2">
               {productData?.sizes?.map((size: string, index: number) => (
@@ -248,7 +250,7 @@ const Page = () => {
             <h3 className="text-sm font-medium">Product description</h3>
             <GoChevronDown />
           </div>
-          <p className="text-xs">{productData.description}</p>
+          <p className="text-xs">{productData?.description}</p>
           <button className="text-pri inline-block mb-3 text-xs">
             Read more
           </button>
