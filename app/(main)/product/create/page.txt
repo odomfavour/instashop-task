@@ -1,0 +1,164 @@
+import Image from 'next/image';
+import React from 'react';
+import { BsArrowLeft, BsThreeDotsVertical } from 'react-icons/bs';
+import { GoChevronDown } from 'react-icons/go';
+import { IoCheckmark } from 'react-icons/io5';
+
+const Page = () => {
+  return (
+    <div className="w-11/12 mx-auto ">
+      <div className="flex justify-between items-center">
+        <div className="flex py-4 items-center gap-3">
+          <BsArrowLeft role="button" />
+          <p className="text-base font-medium">Create a product</p>
+        </div>
+        <div>
+          <BsThreeDotsVertical />
+        </div>
+      </div>
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-2 rounded-[12px] border py-[2px] px-[4px] text-xs font-normal">
+          Draft <IoCheckmark className="text-lg" />
+        </div>
+        <p className="text-pri font-medium text-sm">Preview product</p>
+      </div>
+      <section className="mt-4 py-3 border-t border-b">
+        <div className="flex items-center justify-between">
+          <h3>Basic details</h3>
+          <GoChevronDown />
+        </div>
+        <div className="mt-4">
+          <div className="mb-3">
+            <input
+              type="text"
+              className="w-full p-3 border border-[#00000033] rounded-[12px] placeholder-[#00000099] h-[52px]"
+              placeholder="Product Title"
+            />
+          </div>
+          <div className="mb-3">
+            <textarea
+              className="w-full p-3 border border-[#00000033] rounded-[12px] placeholder-[#00000099]"
+              placeholder="Product Description"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="mb-3">
+              <input
+                type="text"
+                className="w-full p-3 border border-[#00000033] rounded-[12px] placeholder-[#00000099] h-[52px]"
+                placeholder="Price"
+              />
+            </div>
+            <div className="mb-3">
+              <input
+                type="text"
+                className="w-full p-3 border border-[#00000033] rounded-[12px] placeholder-[#00000099] h-[52px]"
+                placeholder="Old Price"
+              />
+            </div>
+          </div>
+          <div className="mb-3">
+            <input
+              type="text"
+              className="w-full p-3 border border-[#00000033] rounded-[12px] placeholder-[#00000099] h-[52px]"
+              placeholder="Product collection"
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="text"
+              className="w-full p-3 border border-[#00000033] rounded-[12px] placeholder-[#00000099] h-[52px]"
+              placeholder="Inventory stocks"
+            />
+          </div>
+        </div>
+      </section>
+      <section className="mt-4 py-3 border-t border-b">
+        <div className="flex items-center justify-between">
+          <h3>Product images</h3>
+          <GoChevronDown />
+        </div>
+        <div className="py-[8px]">
+          <button className="flex items-center justify-center w-full plain-btn rounded-[90px] bg-[#00000005] border-[#00000005]">
+            Add Image
+            <div className="relative h-[20px] w-[20px]">
+              <Image
+                src="/images/add_photo_alternate.svg"
+                alt="shopping image"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+          </button>
+        </div>
+      </section>
+      <section className="mt-4 py-3 border-t border-b">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-medium">Inventory variations</h3>
+        </div>
+        <div className="">
+          <div className="flex items-center mb-4">
+            <input
+              id="default-checkbox"
+              type="checkbox"
+              value=""
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 "
+            />
+            <label
+              htmlFor="default-checkbox"
+              className="ms-2 text-sm font-medium "
+            >
+              This product is variable; has different colors, sizes, weight,
+              materials, etc.
+            </label>
+          </div>
+        </div>
+      </section>
+      <section className="mt-4 py-3 border-t border-b">
+        <div className="flex items-center justify-between">
+          <h3>Product images</h3>
+          <GoChevronDown />
+        </div>
+        <div className="">
+          <div className="flex items-center justify-between mb-4 py-[10px] pr-[10px]">
+            <label htmlFor="default-checkbox" className="text-xs font-medium">
+              Self shipping
+            </label>
+            <input
+              id="default-checkbox"
+              type="checkbox"
+              value=""
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+            />
+          </div>
+          <div className="flex items-center justify-between mb-4 py-[10px] pr-[10px]">
+            <label htmlFor="default-checkbox" className="text-xs font-medium">
+              InstaShop shipping
+            </label>
+            <input
+              id="default-checkbox"
+              type="checkbox"
+              value=""
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 "
+            />
+          </div>
+          <div className="mb-6">
+            <input
+              type="text"
+              className="w-full p-3 border border-[#00000033] rounded-[12px] placeholder-[#00000099] h-[52px]"
+              placeholder="Inventory stocks"
+            />
+          </div>
+        </div>
+        <div className="mb-4 grid grid-cols-2 gap-3 ">
+          <button className="plain-btn w-full h-[40px] rounded-[90px] border-pri text-pri">
+            Cancel
+          </button>
+          <button className="pri-btn w-full h-[40px]">Save</button>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Page;
