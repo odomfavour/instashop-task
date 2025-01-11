@@ -4,6 +4,7 @@ import AuthData from '@/types/AuthData';
 import ProductData from '@/types/ProductData';
 import RootState from '@/types/RootState';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { BsArrowLeft, BsHeart, BsThreeDotsVertical } from 'react-icons/bs';
@@ -63,7 +64,6 @@ const Page = () => {
       localStorage.getItem('instaProducts') || '[]'
     );
 
-    // Check if the product already exists
     const productExists = existingProducts.some(
       (product: ProductData) => product.id === productData.id
     );
@@ -219,12 +219,14 @@ const Page = () => {
               ? productData?.description
               : `${productData?.description?.slice(0, 100)}...`}
           </p>
-          <button
-            onClick={toggleDescription}
-            className="text-pri inline-block mb-3 text-xs"
-          >
-            {isExpanded ? 'Read less' : 'Read more'}
-          </button>
+          {productData?.description.length > 100 && (
+            <button
+              onClick={toggleDescription}
+              className="text-pri inline-block mb-3 text-xs"
+            >
+              {isExpanded ? 'Read less' : 'Read more'}
+            </button>
+          )}
         </div>
       </div>
       <div className="border-b mb-6">
@@ -241,7 +243,7 @@ const Page = () => {
                   onError={(
                     e: React.SyntheticEvent<HTMLImageElement, Event>
                   ) => {
-                    e.currentTarget.src = '/images/avatar.svg'; // Replace with fallback image
+                    e.currentTarget.src = '/images/avatar.svg';
                   }}
                   className="h-[52px] w-[52px] rounded-full"
                   alt="store image"
@@ -290,11 +292,22 @@ const Page = () => {
         </div>
       </div>
       <div className="w-11/12 md:w-2/5 mx-auto">
-        <div className="mb-4">
+        <div className="mb-4 grid grid-cols-2 gap-3 ">
+          <Link
+            href="/product/detail"
+            className="plain-btn w-full text-center h-[40px] rounded-[90px] border-pri text-pri"
+          >
+            Edit
+          </Link>
           <button className="pri-btn w-full h-[40px]" onClick={handlePublish}>
             Publish
           </button>
         </div>
+        {/* <div className="mb-4">
+          <button className="pri-btn w-full h-[40px]" onClick={handlePublish}>
+            Publish
+          </button>
+        </div> */}
       </div>
     </div>
   );

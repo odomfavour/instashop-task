@@ -125,7 +125,6 @@ const Page: React.FC = () => {
   };
 
   const handleSave = () => {
-    console.log('productData', productData);
     localStorage.setItem('instaProductData', JSON.stringify(productData));
     dispatch(saveProductData(productData));
     toast.success('Product updated successfully');
