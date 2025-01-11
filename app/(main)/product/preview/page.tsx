@@ -19,16 +19,16 @@ const Page = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   console.log(productData);
-  const {
-    title,
-    description,
-    price,
-    oldPrice,
-    collection,
-    prodImgs,
-    colors,
-    sizes,
-  } = productData;
+  // const {
+  //   title,
+  //   description,
+  //   price,
+  //   oldPrice,
+  //   collection,
+  //   prodImgs,
+  //   colors,
+  //   sizes,
+  // } = productData;
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Function to go to the next image
@@ -60,11 +60,15 @@ const Page = () => {
       // Only detect swipe if the swipe distance is greater than 50px
       if (distance > 0) {
         // Swipe left (next image)
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % prodImgs.length);
+        setCurrentIndex(
+          (prevIndex) => (prevIndex + 1) % productData.prodImgs.length
+        );
       } else {
         // Swipe right (previous image)
         setCurrentIndex(
-          (prevIndex) => (prevIndex - 1 + prodImgs.length) % prodImgs.length
+          (prevIndex) =>
+            (prevIndex - 1 + productData.prodImgs.length) %
+            productData.prodImgs.length
         );
       }
     }
@@ -124,13 +128,13 @@ const Page = () => {
         className="relative w-full h-[360px]"
       >
         <div className="absolute bottom-2 right-2 text-white font-bold bg-[#0000000D] h-[21px] w-[21px] z-30 text-[10px] rounded-full flex justify-center items-center">
-          {currentIndex + 1}/{prodImgs.length}
+          {currentIndex + 1}/{productData.prodImgs.length}
         </div>
 
         {/* Image display */}
         <div className="relative w-full h-full">
           <Image
-            src={prodImgs[currentIndex].src || `/images/avatar.png`}
+            src={productData.prodImgs[currentIndex].src || `/images/avatar.png`}
             alt={`Product image ${currentIndex + 1}`}
             onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
               e.currentTarget.src = '/images/prod.svg'; // Replace with fallback image
@@ -143,7 +147,7 @@ const Page = () => {
       <div className="border-b pb-2">
         <div className="w-11/12 md:w-2/5 mx-auto">
           <div className="my-2 flex items-center justify-between">
-            <p className="text-sm font-medium w-3/4">{title}</p>
+            <p className="text-sm font-medium w-3/4">{productData.title}</p>
             <div className="flex gap-3 items-center">
               <button className="h-[36px] w-[36px] rounded-full bg-[#0000000D] flex justify-center items-center">
                 <div className="relative h-[20px] w-[20px] rounded-full border">
@@ -163,10 +167,10 @@ const Page = () => {
             <div className="flex gap-1 items-center">
               <p className="text-[20px] text-[#3B3B3B] font-medium">
                 {' '}
-                ₦{price.toFixed(2)}
+                ₦{productData.price.toFixed(2)}
               </p>
               <p className="text-xs font-medium text-[#ACACAC]">
-                ₦{oldPrice.toFixed(2)}
+                ₦{productData.oldPrice.toFixed(2)}
               </p>
               <div className="bg-pri rounded-[24px] py-[2px] px-[4px] text-[10px] text-white">
                 25% OFF
@@ -189,9 +193,11 @@ const Page = () => {
         <div className="w-11/12 md:w-2/5 mx-auto">
           <h3 className="text-sm font-medium mt-4 mb-2">Select variants</h3>
           <div className="pt-2 mb-4">
-            <p className="text-[10px] font-medium">Size: {sizes?.join(', ')}</p>
+            <p className="text-[10px] font-medium">
+              Size: {productData.sizes?.join(', ')}
+            </p>
             <div className="flex mt-2 gap-2">
-              {sizes?.map((size: string, index: number) => (
+              {productData.sizes?.map((size: string, index: number) => (
                 <button
                   key={index}
                   className="plain-btn bg-black text-white rounded-[90px] text-xs"
@@ -203,10 +209,10 @@ const Page = () => {
           </div>
           <div className=" mb-4">
             <p className="text-[10px] font-medium">
-              Color: {colors?.join(', ')}
+              Color: {productData.colors?.join(', ')}
             </p>
             <div className="flex mt-2 gap-2">
-              {colors?.map((color: string, index: number) => (
+              {productData.colors?.map((color: string, index: number) => (
                 <button
                   key={index}
                   className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-xs"
@@ -240,7 +246,7 @@ const Page = () => {
             <h3 className="text-sm font-medium">Product description</h3>
             <GoChevronDown />
           </div>
-          <p className="text-xs">{description}</p>
+          <p className="text-xs">{productData.description}</p>
           <button className="text-pri inline-block mb-3 text-xs">
             Read more
           </button>
@@ -287,7 +293,7 @@ const Page = () => {
             the browser to open)
           </p>
           <div className="flex flex-wrap mt-2 gap-2 pb-6">
-            {collection?.map((item: string, index: number) => (
+            {productData.collection?.map((item: string, index: number) => (
               <button
                 key={index}
                 className="plain-btn bg-[#00000005] border-[#00000005] rounded-[90px] text-[10px]"
