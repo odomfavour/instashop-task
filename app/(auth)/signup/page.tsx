@@ -28,7 +28,7 @@ const Page = () => {
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1); // Move to the next step
     } else {
-      formData.token = '3724359c6658b1a2d966dd845fbd8274';
+      formData.token = process.env.NEXT_PUBLIC_INSTA_TOKEN;
       document.cookie = `instaToken=${formData.token}; path=/; max-age=86400;`;
 
       console.log(formData);
