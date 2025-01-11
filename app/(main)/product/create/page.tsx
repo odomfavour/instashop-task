@@ -104,7 +104,7 @@ const Page: React.FC = () => {
   };
 
   const handleAddCollection = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && collectionInput.trim()) {
+    if ((e.key === 'Enter' || e.key === ' ') && collectionInput.trim()) {
       setProductData((prev) => ({
         ...prev,
         collection: [...prev.collection, collectionInput.trim()],
@@ -474,7 +474,10 @@ const Page: React.FC = () => {
                     placeholder="Add color"
                     className="w-full p-2 text-sm outline-none"
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter' && e.currentTarget.value.trim()) {
+                      if (
+                        (e.key === 'Enter' || e.key === '') &&
+                        e.currentTarget.value.trim()
+                      ) {
                         handleAddValue('colors', e.currentTarget.value);
                         e.currentTarget.value = '';
                       }
