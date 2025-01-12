@@ -35,6 +35,23 @@ const Page: React.FC = () => {
     instaShipping: false,
   });
 
+  const clearForm = () => {
+    setProductData({
+      title: '',
+      description: '',
+      price: 0,
+      oldPrice: 0,
+      collection: [],
+      inventoryStock: 0,
+      hasInventoryVariations: false,
+      prodImgs: [],
+      colors: [],
+      sizes: [],
+      selfShipping: false,
+      instaShipping: false,
+    });
+  };
+
   useEffect(() => {
     setProductData(itemData);
   }, [itemData]);
@@ -145,7 +162,7 @@ const Page: React.FC = () => {
             <BsThreeDotsVertical />
           </div>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center border-b pb-4">
           <div className="flex items-center gap-2 rounded-[12px] border py-[2px] px-[4px] text-xs font-normal">
             Draft <IoCheckmark className="text-lg" />
           </div>
@@ -157,7 +174,7 @@ const Page: React.FC = () => {
             Preview product
           </p>
         </div>
-        <section className="mt-4 py-3 border-t border-b">
+        <section className="mt-4 py-3 border-b">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium">Basic details</h3>
             <GoChevronDown />
@@ -300,7 +317,7 @@ const Page: React.FC = () => {
             </div>
           </div>
         </section>
-        <section className="mt-4 py-3 border-t border-b">
+        <section className="mt-4 py-3 border-b">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium">Product images</h3>
             <GoChevronDown />
@@ -361,7 +378,7 @@ const Page: React.FC = () => {
             </label>
           </div>
         </section>
-        <section className="mt-4 py-3 border-t border-b">
+        <section className="mt-4 py-3 border-b">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium">Inventory variations</h3>
           </div>
@@ -491,7 +508,7 @@ const Page: React.FC = () => {
             </section>
           )}
         </section>
-        <section className="mt-4 py-3 border-t border-b">
+        <section className="mt-4 py-3 border-b">
           <div className="flex items-center justify-between">
             <h3>Shipping</h3>
             <GoChevronDown />
@@ -559,7 +576,10 @@ const Page: React.FC = () => {
             </div>
           </div>
           <div className="mb-4 grid grid-cols-2 gap-3 ">
-            <button className="plain-btn w-full h-[40px] rounded-[90px] border-pri text-pri">
+            <button
+              className="plain-btn w-full h-[40px] rounded-[90px] border-pri text-pri"
+              onClick={clearForm}
+            >
               Cancel
             </button>
             <button className="pri-btn w-full h-[40px]" onClick={handleSave}>

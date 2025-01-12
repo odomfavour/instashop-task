@@ -27,7 +27,53 @@ const Page = () => {
     category: '',
   });
 
+  const validateStepOne = () => {
+    if (!formData.phone) {
+      toast.error('Phone number is required.');
+      return false;
+    }
+    return true;
+  };
+  const validateStepTwo = () => {
+    if (!formData.phone) {
+      toast.error('Phone number is required.');
+      return false;
+    }
+    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
+      toast.error('A valid email is required.');
+      return false;
+    }
+    if (!formData.fullname) {
+      toast.error('Full name is required.');
+      return false;
+    }
+    return true;
+  };
+
+  // Validation function for Step 2
+  const validateStepThree = () => {
+    if (!formData.storename) {
+      toast.error('Store name is required.');
+      return false;
+    }
+    if (!formData.storeTagName) {
+      toast.error('Store tag name is required.');
+      return false;
+    }
+    if (!formData.category) {
+      toast.error('Category is required.');
+      return false;
+    }
+    return true;
+  };
+
   const handleContinue = () => {
+    if (currentStep === 1 && !validateStepOne()) return;
+    if (currentStep === 2 && !validateStepTwo()) return;
+    if (currentStep === 3 && !validateStepThree()) return;
+    if (currentStep < 1) {
+      router.push('/');
+    }
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     } else {

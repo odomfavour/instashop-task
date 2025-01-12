@@ -132,7 +132,7 @@ const AuthStepThree = ({ formData, setFormData }: AuthStepThreeProps) => {
           {/* Store email input */}
           <div className="mb-3">
             <input
-              type="text"
+              type="email"
               name="storeEmail"
               value={formData.storeEmail}
               onChange={(e) =>

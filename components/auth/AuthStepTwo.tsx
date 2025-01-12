@@ -69,7 +69,7 @@ const AuthStepTwo = ({ formData, setFormData }: AuthStepTwoProps) => {
           </div>
           <div className="mb-3">
             <input
-              type="text"
+              type="tel"
               name="phone"
               value={formData.phone}
               onChange={(e) =>
@@ -84,7 +84,7 @@ const AuthStepTwo = ({ formData, setFormData }: AuthStepTwoProps) => {
           </div>
           <div className="mb-3">
             <input
-              type="text"
+              type="email"
               name="email"
               value={formData.email}
               onChange={(e) =>
